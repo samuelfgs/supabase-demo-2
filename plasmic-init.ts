@@ -4,12 +4,9 @@ import { FormContextComponent, FormTextInput } from "./components/CodeComponents
 import { SupabaseMutation, SupabaseQuery, SupabaseUserLogIn, SupabaseUserLogOut, SupabaseUserSession, SupabaseUserSignUp } from "./components/CodeComponents/DatabaseComponents";
 import { SupabaseDeleteButton, SupabaseEditButton, SupabaseModal } from "./components/CodeComponents/UtilsComponents";
 import { RedirectIf } from "./components/CodeComponents/LogicComponents";
+
 export const PLASMIC = initPlasmicLoader({
   projects: [
-    {
-      id: "verTqurZzkaRSaGwvFXmnc",  // ID of a project you are using
-      token: "lji16eo8nlBukH2stIOHCxhUkuM3tmwe3a1cLfnBV8KY61QoEZO8hlA16yczpp5pbOPQRdtTrQGWEIaJD48xQ"  // API token for that project
-    },
     {
         id: "29vNMWd6gz8N9ALUqwUWht",  // ID of a project you are using
         token: "EiMXqz1Ja0Y0so7Wm4QakorRJQPQems0X3U5CVFNuawYJQE8kHk9lL5MCeX1NRvySyReTkkMtOHjdZqMd6Q"  // API token for that project
