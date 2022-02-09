@@ -6,6 +6,7 @@ import L from "lodash";
 import { Table } from "antd";
 import 'antd/dist/antd.css';
 import React from "react";
+import { supabase } from "../../api";
 
 export function SupabaseTextField({ name, className }: { name?: string; className?: string }) {
   const contexts = useAllContexts();

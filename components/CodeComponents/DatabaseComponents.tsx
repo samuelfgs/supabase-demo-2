@@ -117,7 +117,7 @@ export function SupabaseQuery(props: SupabaseQueryProps) {
     if (user) {
       makeQuery(user);
     }
-  }, [user]);
+  }, [user, columns, tableName, filters, single]);
 
   if (!tableName) {
     return <p>You need to set the tableName prop</p>;
