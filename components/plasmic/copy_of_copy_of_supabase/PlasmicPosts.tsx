@@ -64,8 +64,6 @@ export type PlasmicPosts__OverridesType = {
   freeBox?: p.Flex<"div">;
   button?: p.Flex<typeof Button>;
   svg?: p.Flex<"svg">;
-  supabaseQuery?: p.Flex<typeof SupabaseQuery>;
-  supabaseGridCollection?: p.Flex<typeof SupabaseGridCollection>;
   post?: p.Flex<typeof Post>;
   supabaseImgField?: p.Flex<typeof SupabaseImgField>;
   img?: p.Flex<typeof p.PlasmicImg>;
@@ -162,16 +160,15 @@ function PlasmicPosts__RenderFunc(props: {
       ) : null}
 
       <SupabaseQuery
-        data-plasmic-name={"supabaseQuery"}
-        data-plasmic-override={overrides.supabaseQuery}
-        className={classNames("__wab_instance", sty.supabaseQuery)}
+        className={classNames("__wab_instance", sty.supabaseQuery__pEazb)}
         columns={"title, content, id, imageUrl" as const}
         tableName={"posts" as const}
       >
         <SupabaseGridCollection
-          data-plasmic-name={"supabaseGridCollection"}
-          data-plasmic-override={overrides.supabaseGridCollection}
-          className={classNames("__wab_instance", sty.supabaseGridCollection)}
+          className={classNames(
+            "__wab_instance",
+            sty.supabaseGridCollection__vYKb
+          )}
           columnGap={50 as const}
           columns={3 as const}
           loading={
@@ -231,6 +228,25 @@ function PlasmicPosts__RenderFunc(props: {
           />
         </SupabaseGridCollection>
       </SupabaseQuery>
+
+      <SupabaseQuery
+        className={classNames("__wab_instance", sty.supabaseQuery__sTnuv)}
+        columns={"title, content" as const}
+        tableName={"posts" as const}
+      >
+        <SupabaseGridCollection
+          className={classNames(
+            "__wab_instance",
+            sty.supabaseGridCollection___3MgTx
+          )}
+          columnGap={16 as const}
+          columns={4 as const}
+          loading={"Loading..."}
+          rowGap={16 as const}
+        >
+          {"Placeholder"}
+        </SupabaseGridCollection>
+      </SupabaseQuery>
     </p.Stack>
   ) as React.ReactElement | null;
 }
@@ -242,8 +258,6 @@ const PlasmicDescendants = {
     "freeBox",
     "button",
     "svg",
-    "supabaseQuery",
-    "supabaseGridCollection",
     "post",
     "supabaseImgField",
     "img"
@@ -252,19 +266,6 @@ const PlasmicDescendants = {
   freeBox: ["freeBox", "button", "svg"],
   button: ["button", "svg"],
   svg: ["svg"],
-  supabaseQuery: [
-    "supabaseQuery",
-    "supabaseGridCollection",
-    "post",
-    "supabaseImgField",
-    "img"
-  ],
-  supabaseGridCollection: [
-    "supabaseGridCollection",
-    "post",
-    "supabaseImgField",
-    "img"
-  ],
   post: ["post", "supabaseImgField"],
   supabaseImgField: ["supabaseImgField"],
   img: ["img"]
@@ -278,8 +279,6 @@ type NodeDefaultElementType = {
   freeBox: "div";
   button: typeof Button;
   svg: "svg";
-  supabaseQuery: typeof SupabaseQuery;
-  supabaseGridCollection: typeof SupabaseGridCollection;
   post: typeof Post;
   supabaseImgField: typeof SupabaseImgField;
   img: typeof p.PlasmicImg;
@@ -346,8 +345,6 @@ export const PlasmicPosts = Object.assign(
     freeBox: makeNodeComponent("freeBox"),
     button: makeNodeComponent("button"),
     svg: makeNodeComponent("svg"),
-    supabaseQuery: makeNodeComponent("supabaseQuery"),
-    supabaseGridCollection: makeNodeComponent("supabaseGridCollection"),
     post: makeNodeComponent("post"),
     supabaseImgField: makeNodeComponent("supabaseImgField"),
     img: makeNodeComponent("img"),
