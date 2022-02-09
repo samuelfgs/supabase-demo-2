@@ -55,6 +55,7 @@ export type PlasmicHomepage__OverridesType = {
   root?: p.Flex<"div">;
   navBar?: p.Flex<typeof NavBar>;
   posts?: p.Flex<typeof Posts>;
+  text?: p.Flex<"div">;
 };
 
 export interface DefaultHomepageProps {}
@@ -107,6 +108,18 @@ function PlasmicHomepage__RenderFunc(props: {
             data-plasmic-override={overrides.posts}
             className={classNames("__wab_instance", sty.posts)}
           />
+
+          <div
+            data-plasmic-name={"text"}
+            data-plasmic-override={overrides.text}
+            className={classNames(
+              projectcss.all,
+              projectcss.__wab_text,
+              sty.text
+            )}
+          >
+            {"Enter some text"}
+          </div>
         </p.Stack>
       </div>
     </React.Fragment>
@@ -114,9 +127,10 @@ function PlasmicHomepage__RenderFunc(props: {
 }
 
 const PlasmicDescendants = {
-  root: ["root", "navBar", "posts"],
+  root: ["root", "navBar", "posts", "text"],
   navBar: ["navBar"],
-  posts: ["posts"]
+  posts: ["posts"],
+  text: ["text"]
 } as const;
 type NodeNameType = keyof typeof PlasmicDescendants;
 type DescendantsType<T extends NodeNameType> =
@@ -125,6 +139,7 @@ type NodeDefaultElementType = {
   root: "div";
   navBar: typeof NavBar;
   posts: typeof Posts;
+  text: "div";
 };
 
 type ReservedPropsType = "variants" | "args" | "overrides";
@@ -186,6 +201,7 @@ export const PlasmicHomepage = Object.assign(
     // Helper components rendering sub-elements
     navBar: makeNodeComponent("navBar"),
     posts: makeNodeComponent("posts"),
+    text: makeNodeComponent("text"),
 
     // Metadata about props expected for PlasmicHomepage
     internalVariantProps: PlasmicHomepage__VariantProps,
