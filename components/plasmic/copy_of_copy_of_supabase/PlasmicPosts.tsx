@@ -39,6 +39,7 @@ import { SupabaseGridCollection } from "../../CodeComponents/DisplayCollections"
 import Post from "../../Post"; // plasmic-import: jHuN7BO9jYv/component
 import { SupabaseTextField } from "../../CodeComponents/DisplayCollections"; // plasmic-import: qfhrRSTHm0PM/codeComponent
 import { SupabaseImgField } from "../../CodeComponents/DisplayCollections"; // plasmic-import: Aj6z3gH4zG3Q/codeComponent
+import { SupabaseTableCollection } from "../../CodeComponents/DisplayCollections"; // plasmic-import: fzdZdG-Pi4U-/codeComponent
 
 import "@plasmicapp/react-web/lib/plasmic.css";
 
@@ -67,6 +68,7 @@ export type PlasmicPosts__OverridesType = {
   post?: p.Flex<typeof Post>;
   supabaseImgField?: p.Flex<typeof SupabaseImgField>;
   img?: p.Flex<typeof p.PlasmicImg>;
+  supabaseTableCollection?: p.Flex<typeof SupabaseTableCollection>;
 };
 
 export interface DefaultPostsProps {
@@ -266,6 +268,23 @@ function PlasmicPosts__RenderFunc(props: {
           {"Placeholder"}
         </SupabaseGridCollection>
       </SupabaseQuery>
+
+      <SupabaseQuery
+        className={classNames("__wab_instance", sty.supabaseQuery__gaIf)}
+        columns={"title, content, imageUrl" as const}
+        tableName={"posts" as const}
+      >
+        <SupabaseTableCollection
+          data-plasmic-name={"supabaseTableCollection"}
+          data-plasmic-override={overrides.supabaseTableCollection}
+          canEdit={false}
+          className={classNames("__wab_instance", sty.supabaseTableCollection)}
+          columns={"title, content,imageUrl" as const}
+          deleteSlot={"Placeholder"}
+          editSlot={"Placeholder"}
+          loading={"Loading..."}
+        />
+      </SupabaseQuery>
     </p.Stack>
   ) as React.ReactElement | null;
 }
@@ -279,7 +298,8 @@ const PlasmicDescendants = {
     "svg",
     "post",
     "supabaseImgField",
-    "img"
+    "img",
+    "supabaseTableCollection"
   ],
   h2: ["h2"],
   freeBox: ["freeBox", "button", "svg"],
@@ -287,7 +307,8 @@ const PlasmicDescendants = {
   svg: ["svg"],
   post: ["post", "supabaseImgField"],
   supabaseImgField: ["supabaseImgField"],
-  img: ["img"]
+  img: ["img"],
+  supabaseTableCollection: ["supabaseTableCollection"]
 } as const;
 type NodeNameType = keyof typeof PlasmicDescendants;
 type DescendantsType<T extends NodeNameType> =
@@ -301,6 +322,7 @@ type NodeDefaultElementType = {
   post: typeof Post;
   supabaseImgField: typeof SupabaseImgField;
   img: typeof p.PlasmicImg;
+  supabaseTableCollection: typeof SupabaseTableCollection;
 };
 
 type ReservedPropsType = "variants" | "args" | "overrides";
@@ -367,6 +389,7 @@ export const PlasmicPosts = Object.assign(
     post: makeNodeComponent("post"),
     supabaseImgField: makeNodeComponent("supabaseImgField"),
     img: makeNodeComponent("img"),
+    supabaseTableCollection: makeNodeComponent("supabaseTableCollection"),
 
     // Metadata about props expected for PlasmicPosts
     internalVariantProps: PlasmicPosts__VariantProps,
