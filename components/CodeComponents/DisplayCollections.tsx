@@ -90,9 +90,11 @@ export function SupabaseTableCollection(props: SupabaseTableCollectionProps) {
   if (!columns) {
     return <p>You need to set the columns prop</p>
   }
+
+  const cols = columns.split(",").map(c => c.trim());
   
   const tableColumns: any = 
-    [...columns.split(",").map(column =>
+    [...cols.map(column =>
       ({
         title: L.capitalize(column),
         dataIndex: column,
@@ -124,7 +126,7 @@ export function SupabaseTableCollection(props: SupabaseTableCollectionProps) {
   const dataSource: any = result.map((row: any) => 
     ({
       key: result.id,
-      ...columns.split(",").map(column => JSON.parse(`{ "${column}" : "${row[column]}" }`)).flat().reduce((pObj, cObj) => ({ ...pObj, ...cObj})),
+      ...cols.map(column => JSON.parse(`{ "${column}" : "${row[column]}" }`)).flat().reduce((pObj, cObj) => ({ ...pObj, ...cObj})),
       ...(canEdit ? {"edit": row.id} : {}),
       ...(canDelete ? {"delete": row.id} : {})
     }
