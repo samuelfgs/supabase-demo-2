@@ -1,4 +1,4 @@
-import { repeatedElement } from '@plasmicapp/host';
+import { PlasmicCanvasContext, repeatedElement } from '@plasmicapp/host';
 import { User } from '@supabase/gotrue-js';
 import { string } from 'prop-types';
 import React, { ReactNode, useContext, useRef, useState } from 'react';
@@ -7,7 +7,7 @@ import { contextTable, LogInContext, SupabaseMutationContext, SupabaseQueryConte
 import { getContextAndField, getPropValue, isContextValueRef } from './DatabaseComponents';
 
 export interface RedirectIfProps {
-  children?: ReactNode;
+  children?: any;
   className?: string;
   leftExpression?: string;
   operator?: any;
@@ -17,37 +17,35 @@ export interface RedirectIfProps {
   testCondition?: boolean;
 }
 
-const aux = (value: any, contexts: any) => {
-  let val = null;
-  if (!isContextValueRef(value)) {
-    val = value;
-  } else {
-    const {contextName, field} = getContextAndField(value);
-    if (contextName === "local") {
-      val = localStorage.getItem(field);
-    } else if (contextName in contexts) {
-      val = contexts[contextName][field];
-    }
-  }
-  return val;
-}
-
 export function RedirectIf(props: RedirectIfProps) {
   const { children, className, leftExpression, operator, redirectUrl, rightExpression, isTesting, testCondition } = props;
 
-  const [loaded, setLoaded] = React.useState(false);
+  const [loaded, setLoaded] = React.useState<boolean>(false);
   const contexts = useAllContexts();
+  const [condition, setCondition] = React.useState<boolean>(false);
 
-
+  const ref = React.createRef<HTMLAnchorElement>();
+  const inEditor = useContext(PlasmicCanvasContext);
   setTimeout(() => {
     setLoaded(true);
-  }, 1000)
+  }, 500);
 
   React.useEffect(() => {
-    if (!condition && loaded) {
+    setCondition(false);
+  }, [leftExpression, rightExpression, operator, children, isTesting]);
+
+  React.useEffect(() => {
+    supabase.auth.onAuthStateChange((e) => {
+      if (e === "SIGNED_OUT")
+        setCondition(false);
+    })
+  }, [])
+  
+  React.useEffect(() => {
+    if (condition && loaded && !inEditor) {
       ref.current?.click();
     }
-  }, [loaded]);
+  }, [loaded, condition]);
 
   if (!leftExpression) {
     return <p>You need to set the leftExpression prop</p>;
@@ -64,22 +62,20 @@ export function RedirectIf(props: RedirectIfProps) {
     return <p>You need to set the redirectUrl prop</p>;
   }
 
-  const ref = React.createRef<HTMLAnchorElement>();
-
-  let condition = true;
-  const leftVal = aux(leftExpression, contexts);
-  if (operator === "FALSY") {
-    if (!!leftVal) condition = false;
-  } else if (operator === "TRUTHY") {
-    if (!leftVal) condition = false;
-  } else {
-    const rightVal = aux(rightExpression, contexts);
-    if (leftVal !== rightVal)
-      condition = false;
-  }
+  const leftVal = getPropValue(leftExpression, contexts);
+  if (!condition) {
+    if (operator === "FALSY") {
+      if (!leftVal) setCondition(true);
+    } else if (operator === "TRUTHY") {
+      if (!!leftVal) setCondition(true);
+      const rightVal = getPropValue(rightExpression ?? "", contexts);
+      if (leftVal === rightVal)
+        setCondition(true);
+    }
+  } 
 
   return (
-      <div className={className}>
+      <div className={className}> 
         {children}
         <a href={redirectUrl} hidden={true} ref={ref} />
       </div> 

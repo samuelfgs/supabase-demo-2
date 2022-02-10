@@ -1,4 +1,4 @@
-import { repeatedElement } from '@plasmicapp/host';
+import { PlasmicCanvasContext, repeatedElement } from '@plasmicapp/host';
 import { User } from '@supabase/gotrue-js';
 import { string } from 'prop-types';
 import React, { ReactNode, useContext, useRef, useState } from 'react';
@@ -116,8 +116,10 @@ export function SupabaseQuery(props: SupabaseQueryProps) {
     const user = supabase.auth.user();
     if (user) {
       makeQuery(user);
+    } else {
+      setResult(undefined);
     }
-  }, [user, columns, tableName, filters, single]);
+  }, [user, columns, tableName, filters, single, contexts["session"]]);
 
   if (!tableName) {
     return <p>You need to set the tableName prop</p>;
@@ -253,10 +255,19 @@ export function SupabaseUserSession({className, children} : {className?: string,
   React.useEffect(() => {
     setUser(supabase.auth.user());
   }, [user]);
-
+  
+  const inEditor = useContext(PlasmicCanvasContext);
+  React.useEffect(() => {
+    if (inEditor) {
+      supabase.auth.onAuthStateChange((event, session) => {
+        if (event == 'SIGNED_OUT') setUser(null);
+        else if (event === 'SIGNED_IN') setUser(supabase.auth.user());
+      });
+    }
+  }, [user]);
   return (
     <div className={className}>
-      <SupabaseUserSessionContext.Provider value={user}>
+      <SupabaseUserSessionContext.Provider value={{...user}}>
         {children}
       </SupabaseUserSessionContext.Provider>
     </div>
