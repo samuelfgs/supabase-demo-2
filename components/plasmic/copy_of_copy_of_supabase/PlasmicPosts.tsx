@@ -247,6 +247,25 @@ function PlasmicPosts__RenderFunc(props: {
           {"Placeholder"}
         </SupabaseGridCollection>
       </SupabaseQuery>
+
+      <SupabaseQuery
+        className={classNames("__wab_instance", sty.supabaseQuery___8Bmb)}
+        columns={"title, content" as const}
+        tableName={"posts" as const}
+      >
+        <SupabaseGridCollection
+          className={classNames(
+            "__wab_instance",
+            sty.supabaseGridCollection___8Cfc3
+          )}
+          columnGap={16 as const}
+          columns={4 as const}
+          loading={"Loading..."}
+          rowGap={16 as const}
+        >
+          {"Placeholder"}
+        </SupabaseGridCollection>
+      </SupabaseQuery>
     </p.Stack>
   ) as React.ReactElement | null;
 }
