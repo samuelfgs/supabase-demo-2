@@ -55,6 +55,7 @@ export type PlasmicLoginPage__OverridesType = {
   loginComponent?: p.Flex<typeof LoginComponent>;
   link?: p.Flex<"a"> & Partial<LinkProps>;
   span?: p.Flex<"span">;
+  text?: p.Flex<"div">;
 };
 
 export interface DefaultLoginPageProps {}
@@ -132,6 +133,18 @@ function PlasmicLoginPage__RenderFunc(props: {
               </p.PlasmicLink>
             }
           />
+
+          <div
+            data-plasmic-name={"text"}
+            data-plasmic-override={overrides.text}
+            className={classNames(
+              projectcss.all,
+              projectcss.__wab_text,
+              sty.text
+            )}
+          >
+            {"Enter some text"}
+          </div>
         </div>
       </div>
     </React.Fragment>
@@ -139,10 +152,11 @@ function PlasmicLoginPage__RenderFunc(props: {
 }
 
 const PlasmicDescendants = {
-  root: ["root", "loginComponent", "link", "span"],
+  root: ["root", "loginComponent", "link", "span", "text"],
   loginComponent: ["loginComponent", "link", "span"],
   link: ["link", "span"],
-  span: ["span"]
+  span: ["span"],
+  text: ["text"]
 } as const;
 type NodeNameType = keyof typeof PlasmicDescendants;
 type DescendantsType<T extends NodeNameType> =
@@ -152,6 +166,7 @@ type NodeDefaultElementType = {
   loginComponent: typeof LoginComponent;
   link: "a";
   span: "span";
+  text: "div";
 };
 
 type ReservedPropsType = "variants" | "args" | "overrides";
@@ -214,6 +229,7 @@ export const PlasmicLoginPage = Object.assign(
     loginComponent: makeNodeComponent("loginComponent"),
     link: makeNodeComponent("link"),
     span: makeNodeComponent("span"),
+    text: makeNodeComponent("text"),
 
     // Metadata about props expected for PlasmicLoginPage
     internalVariantProps: PlasmicLoginPage__VariantProps,
