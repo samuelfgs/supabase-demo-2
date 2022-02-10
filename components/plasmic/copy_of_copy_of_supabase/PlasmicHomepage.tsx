@@ -34,6 +34,8 @@ import {
   ensureGlobalVariants
 } from "@plasmicapp/react-web";
 import NavBar from "../../NavBar"; // plasmic-import: 4MjNumUgQK4/component
+import { SupabaseUserSession } from "../../CodeComponents/DatabaseComponents"; // plasmic-import: FQ70Fn6JOGh/codeComponent
+import { RedirectIf } from "../../CodeComponents/LogicComponents"; // plasmic-import: YQkUgSxIQU6X/codeComponent
 import Posts from "../../Posts"; // plasmic-import: dOddoL9RPC4/component
 
 import "@plasmicapp/react-web/lib/plasmic.css";
@@ -54,6 +56,8 @@ export const PlasmicHomepage__ArgProps = new Array<ArgPropType>();
 export type PlasmicHomepage__OverridesType = {
   root?: p.Flex<"div">;
   navBar?: p.Flex<typeof NavBar>;
+  supabaseUserSession?: p.Flex<typeof SupabaseUserSession>;
+  redirectIf?: p.Flex<typeof RedirectIf>;
   posts?: p.Flex<typeof Posts>;
 };
 
@@ -102,11 +106,26 @@ function PlasmicHomepage__RenderFunc(props: {
             className={classNames("__wab_instance", sty.navBar)}
           />
 
-          <Posts
-            data-plasmic-name={"posts"}
-            data-plasmic-override={overrides.posts}
-            className={classNames("__wab_instance", sty.posts)}
-          />
+          <SupabaseUserSession
+            data-plasmic-name={"supabaseUserSession"}
+            data-plasmic-override={overrides.supabaseUserSession}
+            className={classNames("__wab_instance", sty.supabaseUserSession)}
+          >
+            <RedirectIf
+              data-plasmic-name={"redirectIf"}
+              data-plasmic-override={overrides.redirectIf}
+              className={classNames("__wab_instance", sty.redirectIf)}
+              leftExpression={"{{session.email}}" as const}
+              operator={"FALSY" as const}
+              redirectUrl={"/login-page" as const}
+            >
+              <Posts
+                data-plasmic-name={"posts"}
+                data-plasmic-override={overrides.posts}
+                className={classNames("__wab_instance", sty.posts)}
+              />
+            </RedirectIf>
+          </SupabaseUserSession>
         </p.Stack>
       </div>
     </React.Fragment>
@@ -114,8 +133,10 @@ function PlasmicHomepage__RenderFunc(props: {
 }
 
 const PlasmicDescendants = {
-  root: ["root", "navBar", "posts"],
+  root: ["root", "navBar", "supabaseUserSession", "redirectIf", "posts"],
   navBar: ["navBar"],
+  supabaseUserSession: ["supabaseUserSession", "redirectIf", "posts"],
+  redirectIf: ["redirectIf", "posts"],
   posts: ["posts"]
 } as const;
 type NodeNameType = keyof typeof PlasmicDescendants;
@@ -124,6 +145,8 @@ type DescendantsType<T extends NodeNameType> =
 type NodeDefaultElementType = {
   root: "div";
   navBar: typeof NavBar;
+  supabaseUserSession: typeof SupabaseUserSession;
+  redirectIf: typeof RedirectIf;
   posts: typeof Posts;
 };
 
@@ -185,6 +208,8 @@ export const PlasmicHomepage = Object.assign(
   {
     // Helper components rendering sub-elements
     navBar: makeNodeComponent("navBar"),
+    supabaseUserSession: makeNodeComponent("supabaseUserSession"),
+    redirectIf: makeNodeComponent("redirectIf"),
     posts: makeNodeComponent("posts"),
 
     // Metadata about props expected for PlasmicHomepage

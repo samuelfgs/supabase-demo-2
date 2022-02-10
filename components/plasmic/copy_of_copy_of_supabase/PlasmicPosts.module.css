@@ -63,11 +63,11 @@
   width: 1em;
   height: 1em;
 }
-.supabaseQuery__pEazb:global(.__wab_instance) {
+.supabaseQuery:global(.__wab_instance) {
   max-width: 100%;
   position: relative;
 }
-.supabaseGridCollection__vYKb:global(.__wab_instance) {
+.supabaseGridCollection:global(.__wab_instance) {
   max-width: 100%;
   position: relative;
   width: 100%;
@@ -101,25 +101,4 @@
 }
 .img > .__wab_img-spacer > img {
   object-fit: cover;
-}
-.supabaseQuery__sTnuv:global(.__wab_instance) {
-  max-width: 100%;
-  position: relative;
-}
-.supabaseGridCollection___3MgTx:global(.__wab_instance) {
-  max-width: 100%;
-}
-.supabaseQuery___8Bmb:global(.__wab_instance) {
-  max-width: 100%;
-  position: relative;
-}
-.supabaseGridCollection___8Cfc3:global(.__wab_instance) {
-  max-width: 100%;
-}
-.supabaseQuery__gaIf:global(.__wab_instance) {
-  max-width: 100%;
-  position: relative;
-}
-.supabaseTableCollection:global(.__wab_instance) {
-  max-width: 100%;
 }
